@@ -18,6 +18,7 @@ public class interactBook implements Listener {
         mainMenu = MainMenu;
     }
 
+    // Opens the menu if you have a book in your hand
     @EventHandler
     public void onEnable(PlayerInteractEvent e) {
         Player player = e.getPlayer();

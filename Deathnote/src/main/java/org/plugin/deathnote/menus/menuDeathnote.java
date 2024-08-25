@@ -22,9 +22,13 @@ public class menuDeathnote implements InventoryHolder {
     private final int size;
     private int currIncidentID, currTimeID, currTargetIndex;
     private final String title;
-    private final String[] incidentName = {"will die of a heart attack", "will be blown up", "will be paralyzed by a lightning strike"};
+    // All incidents
+    private final String[] incidentName = {"will die of a heart attack",
+            "will be blown up", "will be paralyzed by a lightning strike"};
+    // All times
     private final int[] times = {0, 5, 10, 20, 40, 80, 120, 200};
 
+    //Constructor
     public menuDeathnote(int rows, String title, int currIncidentID, int currTimeID, int currTargetID) {
         this.size = 9*rows;
         this.title = title;
@@ -33,78 +37,64 @@ public class menuDeathnote implements InventoryHolder {
         this.currTargetIndex = currTargetID;
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-
+    // Creates a book menu
     @Override
     public @NotNull Inventory getInventory() {
         Inventory menu = Bukkit.createInventory(player, size, Component.text(title));
-        ItemStack item;
-        ItemMeta meta;
 
-        item = new ItemStack(Material.LIGHT_GRAY_STAINED_GLASS_PANE);
-        meta = item.getItemMeta();
-        meta.displayName(Component.text(" "));
-        item.setItemMeta(meta);
+        ItemStack placeholder = generateItem(Material.LIGHT_GRAY_STAINED_GLASS_PANE, Component.text(""));
         for (int x = 0; x < size; x++)
         {
-            menu.setItem(x, item);
+            menu.setItem(x, placeholder);
         }
 
-        item = new ItemStack(Material.PLAYER_HEAD);
-        meta = item.getItemMeta();
-        SkullMeta skullMeta = (SkullMeta) item.getItemMeta();
-        skullMeta.displayName(Component.text(ChatColor.RESET + getTarget().getName()));
-        skullMeta.getPersistentDataContainer().set(NamespacedKey.fromString("deathnote"), PersistentDataType.BOOLEAN, true);
-        skullMeta.setOwningPlayer(getTarget());
-        item.setItemMeta(skullMeta);
-        menu.setItem(12, item);
+        menu.setItem(12, generateItemSkull(Material.PLAYER_HEAD, Component.text("§r" + getTarget().getName())));
+        menu.setItem(13, generateItem(Material.NAME_TAG, Component.text("§f"+ incidentName[currIncidentID]), currIncidentID));
+        menu.setItem(14, generateItem(Material.CLOCK, Component.text("§fafter §l" + times[currTimeID] + "§f seconds"), currTimeID));
 
-        item = new ItemStack(Material.NAME_TAG);
-        meta = item.getItemMeta();
-        meta.displayName(Component.text(ChatColor.WHITE + incidentName[currIncidentID]));
-        meta.getPersistentDataContainer().set(NamespacedKey.fromString("id"), PersistentDataType.INTEGER, currIncidentID);
-        item.setItemMeta(meta);
-        menu.setItem(13, item);
-
-        item = new ItemStack(Material.CLOCK);
-        meta = item.getItemMeta();
-        meta.displayName(Component.text(ChatColor.WHITE + "after " + ChatColor.BOLD + times[currTimeID] + ChatColor.WHITE + " seconds"));
-        meta.getPersistentDataContainer().set(NamespacedKey.fromString("id"), PersistentDataType.INTEGER, currTimeID);
-        item.setItemMeta(meta);
-        menu.setItem(14, item);
-
-        item = new ItemStack(Material.RED_STAINED_GLASS_PANE);
-        meta = item.getItemMeta();
-        meta.displayName(Component.text(ChatColor.RED + "Close"));
-        item.setItemMeta(meta);
-        menu.setItem(18, item);
-
-        item = new ItemStack(Material.LIME_STAINED_GLASS_PANE);
-        meta = item.getItemMeta();
-        meta.displayName(Component.text(ChatColor.GREEN + "Apply"));
-        item.setItemMeta(meta);
-        menu.setItem(26, item);
+        menu.setItem(18, generateItem(Material.RED_STAINED_GLASS_PANE, Component.text("§cClose")));
+        menu.setItem(26, generateItem(Material.LIME_STAINED_GLASS_PANE, Component.text("§aApply")));
 
         return menu;
     }
 
-    public Player getTarget(){
-        List<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
-        return players.get(currTargetIndex);
+    // Creates a head object
+    private ItemStack generateItemSkull(Material material, Component displayName){
+        ItemStack item = new ItemStack(material);
+        SkullMeta skullMeta = (SkullMeta) item.getItemMeta();
+        skullMeta.displayName(displayName);
+        skullMeta.getPersistentDataContainer().set(NamespacedKey.fromString("deathnote"), PersistentDataType.BOOLEAN, true);
+        skullMeta.setOwningPlayer(getTarget());
+        item.setItemMeta(skullMeta);
+
+        return item;
     }
 
-    public Player getPlayer() {
-        return player;
+    // Creates an item without attributes
+    private ItemStack generateItem(Material material, Component displayName){
+        ItemStack item = new ItemStack(material);
+        ItemMeta meta = item.getItemMeta();
+        meta.displayName(displayName);
+        item.setItemMeta(meta);
+
+        return item;
     }
 
-    public int getCurrIncidentID() {
-        return currIncidentID;
+    // Creates an item with attributes
+    private ItemStack generateItem(Material material, Component displayName, int var){
+        ItemStack item = new ItemStack(material);
+        ItemMeta meta = item.getItemMeta();
+        meta.displayName(displayName);
+        meta.getPersistentDataContainer().set(NamespacedKey.fromString("id"), PersistentDataType.INTEGER, var);
+        item.setItemMeta(meta);
+
+        return item;
     }
 
-    public int getCurrTimeID() {
-        return currTimeID;
+    // SETTERS
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     public void setCurrIncidentID(int currIncidentID) {
@@ -127,11 +117,30 @@ public class menuDeathnote implements InventoryHolder {
         this.currTargetIndex = id;
     }
 
+    // GETTERS
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public int getCurrIncidentID() {
+        return currIncidentID;
+    }
+
+    public int getCurrTimeID() {
+        return currTimeID;
+    }
+
     public int getCurrTargetIndex() {
         return currTargetIndex;
     }
 
     public int[] getTimes() {
         return times;
+    }
+
+    public Player getTarget(){
+        List<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
+        return players.get(currTargetIndex);
     }
 }

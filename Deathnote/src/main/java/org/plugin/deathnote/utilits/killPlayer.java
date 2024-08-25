@@ -9,6 +9,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
 public class killPlayer implements Listener {
+    // Starts a timer after which the player dies
     public killPlayer(Player target, int incidentID, int timeIndex,int[] timeliest, Plugin plugin){
         BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
         scheduler.scheduleSyncDelayedTask(plugin, new Runnable() {
@@ -19,6 +20,7 @@ public class killPlayer implements Listener {
         }, 20L*timeliest[timeIndex]);
     }
 
+    // Checks which incident was selected and executes it
     public void runTaskIncident(int incidentID, Player target) {
         switch (incidentID){
             case 0 -> HeartAttack(target);
@@ -27,12 +29,17 @@ public class killPlayer implements Listener {
         }
     }
 
+    // Just kills the player
     public void HeartAttack(Player target) { target.setHealth(0); }
+
+    // Blows up the player
     public void BlowUp(Player target) {
         target.setHealth(0.5);
         TNTPrimed tnt = (TNTPrimed) target.getWorld().spawnEntity(target.getLocation(), EntityType.TNT);
         tnt.setFuseTicks(0);
     }
+
+    // Strikes the player with lightning
     public void Paralyzed(Player target) {
         target.setHealth(0.5);
         target.getWorld().strikeLightning(target.getLocation());

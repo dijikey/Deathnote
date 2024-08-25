@@ -31,17 +31,20 @@ public class interactInventory implements Listener {
                 int currTargetID = mainMenu.getCurrTargetIndex();
 
                 event.setCancelled(true);
+                // Checks which object was the interaction with
                 switch (event.getCurrentItem().getType())
                 {
                     case CLOCK -> mainMenu.setCurrTimeID(setTimeId(currTimeID));
                     case NAME_TAG -> mainMenu.setCurrIncidentID(setIncidentId(currIncidentID));
                     case PLAYER_HEAD -> mainMenu.setCurrTargetIndex(setTargetIndex(currTargetID));
                     case LIME_STAINED_GLASS_PANE -> {
+                        // Creates a timer until death, according to the specified variables
                         new killPlayer(mainMenu.getTarget(), currIncidentID, currTimeID, mainMenu.getTimes(), plugin);
                         player.closeInventory();
                     }
                     case  RED_STAINED_GLASS_PANE -> player.closeInventory();
                 }
+                // Updates the menu if the closing item was not pressed
                 if (event.getCurrentItem().getType() != Material.RED_STAINED_GLASS_PANE && event.getCurrentItem().getType() != Material.LIME_STAINED_GLASS_PANE)
                     player.openInventory(mainMenu.getInventory());
             }
@@ -49,6 +52,8 @@ public class interactInventory implements Listener {
             error.getStackTrace();
         }
     }
+
+    // SETTERS
 
     public int setTimeId(int id)
     {
