@@ -2,3 +2,6 @@ name: Deathnote
 version: '1.0-SNAPSHOT'
 main: org.plugin.deathnote.Deathnote
 api-version: '1.21'
+commands:
+  getDeathnote:
+    permission: "deathnote.command.use"
