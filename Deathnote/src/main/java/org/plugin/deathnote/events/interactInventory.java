@@ -34,8 +34,8 @@ public class interactInventory implements Listener {
                 // Checks which object was the interaction with
                 switch (event.getCurrentItem().getType())
                 {
-                    case CLOCK -> mainMenu.setCurrTimeID(setTimeId(currTimeID));
-                    case NAME_TAG -> mainMenu.setCurrIncidentID(setIncidentId(currIncidentID));
+                    case CLOCK -> mainMenu.setCurrTimeID(setTimeId(currTimeID, mainMenu.getTimes().size()));
+                    case NAME_TAG -> mainMenu.setCurrIncidentID(setIncidentId(currIncidentID, mainMenu.getIncidents().size()));
                     case PLAYER_HEAD -> mainMenu.setCurrTargetIndex(setTargetIndex(currTargetID));
                     case LIME_STAINED_GLASS_PANE -> {
                         // Creates a timer until death, according to the specified variables
@@ -55,15 +55,15 @@ public class interactInventory implements Listener {
 
     // SETTERS
 
-    public int setTimeId(int id)
+    public int setTimeId(int id, int length)
     {
-        if (id == 7){ return 0; }
+        if (id == length - 1){ return 0; }
         return id + 1;
     }
 
-    public int setIncidentId(int id)
+    public int setIncidentId(int id, int length)
     {
-        if (id == 2){ return 0; }
+        if (id == length - 1){ return 0; }
         return id + 1;
     }
 

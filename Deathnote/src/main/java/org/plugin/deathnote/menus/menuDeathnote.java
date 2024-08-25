@@ -2,9 +2,9 @@ package org.plugin.deathnote.menus;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -20,21 +20,19 @@ import java.util.List;
 public class menuDeathnote implements InventoryHolder {
     private Player player;
     private final int size;
-    private int currIncidentID, currTimeID, currTargetIndex;
+    private int currIncidentID = 0, currTimeID = 0, currTargetIndex = 0;
     private final String title;
     // All incidents
-    private final String[] incidentName = {"will die of a heart attack",
-            "will be blown up", "will be paralyzed by a lightning strike"};
+    private final List<String> incidentName;
     // All times
-    private final int[] times = {0, 5, 10, 20, 40, 80, 120, 200};
+    private final List<Integer> times;
 
     //Constructor
-    public menuDeathnote(int rows, String title, int currIncidentID, int currTimeID, int currTargetID) {
+    public menuDeathnote(int rows, String title, FileConfiguration config) {
         this.size = 9*rows;
         this.title = title;
-        this.currIncidentID = currIncidentID;
-        this.currTimeID = currTimeID;
-        this.currTargetIndex = currTargetID;
+        this.incidentName = loadIncidentList(config);
+        this.times = loadTimesList(config);
     }
 
     // Creates a book menu
@@ -49,8 +47,8 @@ public class menuDeathnote implements InventoryHolder {
         }
 
         menu.setItem(12, generateItemSkull(Material.PLAYER_HEAD, Component.text("§r" + getTarget().getName())));
-        menu.setItem(13, generateItem(Material.NAME_TAG, Component.text("§f"+ incidentName[currIncidentID]), currIncidentID));
-        menu.setItem(14, generateItem(Material.CLOCK, Component.text("§fafter §l" + times[currTimeID] + "§f seconds"), currTimeID));
+        menu.setItem(13, generateItem(Material.NAME_TAG, Component.text("§f"+ incidentName.get(currIncidentID)), currIncidentID));
+        menu.setItem(14, generateItem(Material.CLOCK, Component.text("§fafter §l" + times.get(currTimeID) + "§f seconds"), currTimeID));
 
         menu.setItem(18, generateItem(Material.RED_STAINED_GLASS_PANE, Component.text("§cClose")));
         menu.setItem(26, generateItem(Material.LIME_STAINED_GLASS_PANE, Component.text("§aApply")));
@@ -69,6 +67,7 @@ public class menuDeathnote implements InventoryHolder {
 
         return item;
     }
+
 
     // Creates an item without attributes
     private ItemStack generateItem(Material material, Component displayName){
@@ -108,7 +107,7 @@ public class menuDeathnote implements InventoryHolder {
     public void setDefaultVar()
     {
         this.currIncidentID = 0;
-        this.currTimeID = 4;
+        this.currTimeID = 0;
         this.currTargetIndex = 0;
     }
 
@@ -119,8 +118,12 @@ public class menuDeathnote implements InventoryHolder {
 
     // GETTERS
 
-    public Player getPlayer() {
-        return player;
+    private List<Integer> loadTimesList(FileConfiguration config){
+        return config.getIntegerList("Times-list");
+    }
+
+    private List<String> loadIncidentList(FileConfiguration config){
+        return config.getStringList("Incidents-list");
     }
 
     public int getCurrIncidentID() {
@@ -135,8 +138,11 @@ public class menuDeathnote implements InventoryHolder {
         return currTargetIndex;
     }
 
-    public int[] getTimes() {
+    public List<Integer> getTimes() {
         return times;
+    }
+    public List<String> getIncidents() {
+        return incidentName;
     }
 
     public Player getTarget(){
