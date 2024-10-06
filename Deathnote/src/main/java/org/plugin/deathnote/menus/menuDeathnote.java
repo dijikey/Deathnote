@@ -40,7 +40,7 @@ public class menuDeathnote implements InventoryHolder {
     public @NotNull Inventory getInventory() {
         Inventory menu = Bukkit.createInventory(player, size, Component.text(title));
 
-        menu.setItem(12, generateItemSkull(Material.PLAYER_HEAD, Component.text("§r" + getTarget().getName())));
+        menu.setItem(12, generateItemSkull(Component.text("§r" + getTarget().getName())));
         menu.setItem(13, generateItem(Material.NAME_TAG, Component.text("§f"+ incidentName.get(currIncidentID)), currIncidentID));
         menu.setItem(14, generateItem(Material.CLOCK, Component.text("§fafter §l" + times.get(currTimeID) + "§f seconds"), currTimeID));
 
@@ -51,8 +51,8 @@ public class menuDeathnote implements InventoryHolder {
     }
 
     // Creates a head object
-    private ItemStack generateItemSkull(Material material, Component displayName){
-        ItemStack item = new ItemStack(material);
+    private ItemStack generateItemSkull(Component displayName){
+        ItemStack item = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta skullMeta = (SkullMeta) item.getItemMeta();
         skullMeta.displayName(displayName);
         skullMeta.getPersistentDataContainer().set(NamespacedKey.fromString("deathnote"), PersistentDataType.BOOLEAN, true);
