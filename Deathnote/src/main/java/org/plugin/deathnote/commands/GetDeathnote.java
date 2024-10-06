@@ -7,10 +7,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-public class getDeathnote implements CommandExecutor {
+public class GetDeathnote implements CommandExecutor {
     private final ItemStack itemDeathnote;
 
-    public getDeathnote(ItemStack itemDeathnote) {
+    public GetDeathnote(ItemStack itemDeathnote) {
         this.itemDeathnote = itemDeathnote;
     }
 

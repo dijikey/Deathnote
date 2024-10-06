@@ -11,11 +11,11 @@ import org.bukkit.plugin.Plugin;
 import org.plugin.deathnote.menus.menuDeathnote;
 import org.plugin.deathnote.utilits.killPlayer;
 
-public class interactInventory implements Listener {
+public class InteractInventory implements Listener {
     private final menuDeathnote mainMenu;
     private final Plugin plugin;
 
-    public interactInventory(menuDeathnote mainMenu, Plugin plugin) {
+    public InteractInventory(menuDeathnote mainMenu, Plugin plugin) {
         this.mainMenu = mainMenu;
         this.plugin = plugin;
     }

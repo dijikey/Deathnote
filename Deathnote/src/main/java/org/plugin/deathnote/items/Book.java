@@ -5,12 +5,12 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class book {
+public class Book {
     private final int CustomID;
     private final String NameBook;
     private final Material MaterialItem;
 
-    public book(int CustomID, String NameBook, Material MaterialItem) {
+    public Book(int CustomID, String NameBook, Material MaterialItem) {
         this.CustomID = CustomID;
         this.NameBook = NameBook;
         this.MaterialItem = MaterialItem;

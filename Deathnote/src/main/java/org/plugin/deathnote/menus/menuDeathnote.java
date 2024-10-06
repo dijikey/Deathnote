@@ -40,12 +40,6 @@ public class menuDeathnote implements InventoryHolder {
     public @NotNull Inventory getInventory() {
         Inventory menu = Bukkit.createInventory(player, size, Component.text(title));
 
-        ItemStack placeholder = generateItem(Material.LIGHT_GRAY_STAINED_GLASS_PANE, Component.text(""));
-        for (int x = 0; x < size; x++)
-        {
-            menu.setItem(x, placeholder);
-        }
-
         menu.setItem(12, generateItemSkull(Material.PLAYER_HEAD, Component.text("§r" + getTarget().getName())));
         menu.setItem(13, generateItem(Material.NAME_TAG, Component.text("§f"+ incidentName.get(currIncidentID)), currIncidentID));
         menu.setItem(14, generateItem(Material.CLOCK, Component.text("§fafter §l" + times.get(currTimeID) + "§f seconds"), currTimeID));

@@ -6,14 +6,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.plugin.deathnote.items.book;
+import org.plugin.deathnote.items.Book;
 import org.plugin.deathnote.menus.menuDeathnote;
 
-public class interactBook implements Listener {
-    private final book Book;
+public class InteractBook implements Listener {
+    private final Book Book;
     private final menuDeathnote mainMenu;
 
-    public interactBook(book book, menuDeathnote MainMenu) {
+    public InteractBook(Book book, menuDeathnote MainMenu) {
         Book = book;
         mainMenu = MainMenu;
     }
