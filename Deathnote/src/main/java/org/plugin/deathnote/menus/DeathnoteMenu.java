@@ -7,9 +7,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
-import org.plugin.sexyClasses.Incident;
-import org.plugin.sexyClasses.Placeholders;
-import org.plugin.sexyClasses.SpecialItem;
+import org.plugin.deathnote.sexyClasses.Incident;
+import org.plugin.deathnote.sexyClasses.Placeholders;
+import org.plugin.deathnote.sexyClasses.SpecialItem;
 
 import java.util.ArrayList;
 import java.util.List;

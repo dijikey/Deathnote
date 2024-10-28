@@ -1,4 +1,4 @@
-package org.plugin.sexyClasses;
+package org.plugin.deathnote.sexyClasses;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;

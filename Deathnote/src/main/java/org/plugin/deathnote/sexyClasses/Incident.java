@@ -1,4 +1,4 @@
-package org.plugin.sexyClasses;
+package org.plugin.deathnote.sexyClasses;
 
 public class Incident {
     public final String name;

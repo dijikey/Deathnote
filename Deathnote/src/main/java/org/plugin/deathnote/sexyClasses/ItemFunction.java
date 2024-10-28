@@ -1,4 +1,4 @@
-package org.plugin.sexyClasses;
+package org.plugin.deathnote.sexyClasses;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

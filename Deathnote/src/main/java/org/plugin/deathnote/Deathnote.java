@@ -2,7 +2,6 @@ package org.plugin.deathnote;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.plugin.deathnote.commands.GetDeathnote;
 import org.plugin.deathnote.commands.OpenDeathnoteMenu;

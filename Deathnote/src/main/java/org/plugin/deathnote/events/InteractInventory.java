@@ -1,14 +1,13 @@
 package org.plugin.deathnote.events;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.plugin.deathnote.menus.DeathnoteMenu;
-import org.plugin.sexyClasses.ItemFunction;
-import org.plugin.sexyClasses.SpecialItem;
+import org.plugin.deathnote.sexyClasses.ItemFunction;
+import org.plugin.deathnote.sexyClasses.SpecialItem;
 
 import java.util.Arrays;
 import java.util.Objects;
