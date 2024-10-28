@@ -2,22 +2,24 @@ package org.plugin.deathnote.events;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.plugin.Plugin;
-import org.plugin.deathnote.menus.menuDeathnote;
-import org.plugin.deathnote.utilits.killPlayer;
+import org.plugin.deathnote.menus.DeathnoteMenu;
+import org.plugin.sexyClasses.ItemFunction;
+import org.plugin.sexyClasses.SpecialItem;
+
+import java.util.Arrays;
+import java.util.Objects;
+
+import static org.plugin.deathnote.menus.DeathnoteMenu.MENU_CONTENTS;
 
 public class InteractInventory implements Listener {
-    private final menuDeathnote mainMenu;
-    private final Plugin plugin;
+    private final DeathnoteMenu menu;
 
-    public InteractInventory(menuDeathnote mainMenu, Plugin plugin) {
-        this.mainMenu = mainMenu;
-        this.plugin = plugin;
+    public InteractInventory(DeathnoteMenu menu) {
+        this.menu = menu;
     }
 
     @EventHandler
@@ -25,52 +27,29 @@ public class InteractInventory implements Listener {
     {
         Player player = (Player) event.getWhoClicked();
         try {
-            if (event.getClickedInventory().getItem(12).getItemMeta().getPersistentDataContainer().has(NamespacedKey.fromString("deathnote") ) ) {
-                int currTimeID = mainMenu.getCurrTimeID();
-                int currIncidentID = mainMenu.getCurrIncidentID();
-                int currTargetID = mainMenu.getCurrTargetIndex();
-
+            if (Arrays.equals(event.getClickedInventory().getContents(), MENU_CONTENTS)) {
                 event.setCancelled(true);
-                // Checks which object was the interaction with
-                switch (event.getCurrentItem().getType())
-                {
-                    case CLOCK -> mainMenu.setCurrTimeID(setTimeId(currTimeID, mainMenu.getTimes().size()));
-                    case NAME_TAG -> mainMenu.setCurrIncidentID(setIncidentId(currIncidentID, mainMenu.getIncidents().size()));
-                    case PLAYER_HEAD -> mainMenu.setCurrTargetIndex(setTargetIndex(currTargetID));
-                    case LIME_STAINED_GLASS_PANE -> {
-                        // Creates a timer until death, according to the specified variables
-                        new killPlayer(mainMenu.getTarget(), currIncidentID, currTimeID, mainMenu.getTimes(), plugin);
-                        player.closeInventory();
+                for (SpecialItem item : menu.items){
+                    if (Objects.equals(item.item, event.getCurrentItem().getType())){
+                        for (ItemFunction fun : ItemFunction.values()){
+                            if (Objects.equals(item.fun, fun.hashCode)){
+                                fun.function(player, menu);
+                                break;
+                            }
+                        }
+                        break;
                     }
-                    case  RED_STAINED_GLASS_PANE -> player.closeInventory();
                 }
-                // Updates the menu if the closing item was not pressed
-                if (event.getCurrentItem().getType() != Material.RED_STAINED_GLASS_PANE && event.getCurrentItem().getType() != Material.LIME_STAINED_GLASS_PANE)
-                    player.openInventory(mainMenu.getInventory());
+
+                //I know about this, I’ll fix it somehow (*/ω＼*)
+                if (!(event.getCurrentItem().getType() == Material.RED_STAINED_GLASS_PANE || event.getCurrentItem().getType() == Material.LIME_STAINED_GLASS_PANE))
+                {
+                    player.openInventory(menu.getInventory());
+                }
             }
         }catch (IllegalArgumentException | NullPointerException error){
             error.getStackTrace();
         }
-    }
-
-    // SETTERS
-
-    public int setTimeId(int id, int length)
-    {
-        if (id == length - 1){ return 0; }
-        return id + 1;
-    }
-
-    public int setIncidentId(int id, int length)
-    {
-        if (id == length - 1){ return 0; }
-        return id + 1;
-    }
-
-    public int setTargetIndex(int index)
-    {
-        if (index == Bukkit.getOnlinePlayers().size() - 1){ return 0; }
-        return index + 1;
     }
 }
 

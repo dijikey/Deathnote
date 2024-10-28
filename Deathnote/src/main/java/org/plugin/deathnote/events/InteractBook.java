@@ -7,15 +7,12 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.plugin.deathnote.items.Book;
-import org.plugin.deathnote.menus.menuDeathnote;
 
 public class InteractBook implements Listener {
     private final Book Book;
-    private final menuDeathnote mainMenu;
 
-    public InteractBook(Book book, menuDeathnote MainMenu) {
+    public InteractBook(Book book) {
         Book = book;
-        mainMenu = MainMenu;
     }
 
     // Opens the menu if you have a book in your hand
@@ -25,11 +22,11 @@ public class InteractBook implements Listener {
         ItemStack item = e.getItem();
         try {
             if (!item.getItemMeta().hasCustomModelData()) { return; }
-            if (item.getItemMeta().getCustomModelData() == Book.getCustomID()){
-                if ((e.getAction().equals(Action.RIGHT_CLICK_BLOCK) || e.getAction().equals(Action.RIGHT_CLICK_AIR)) && player.hasPermission("deathnote.command.use")){
-                    mainMenu.setPlayer(player);
-                    mainMenu.setDefaultVar();
-                    player.openInventory(mainMenu.getInventory());
+
+            if (item.getItemMeta().getCustomModelData() == Book.CustomID){
+                if ((e.getAction().equals(Action.RIGHT_CLICK_BLOCK) || e.getAction().equals(Action.RIGHT_CLICK_AIR) ))
+                {
+                    player.performCommand("openDeathnote");
                 }
             }
         }catch (NullPointerException err){

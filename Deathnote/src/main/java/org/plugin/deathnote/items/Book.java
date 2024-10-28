@@ -6,9 +6,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class Book {
-    private final int CustomID;
-    private final String NameBook;
-    private final Material MaterialItem;
+    public final int CustomID;
+    public final String NameBook;
+    public final Material MaterialItem;
 
     public Book(int CustomID, String NameBook, Material MaterialItem) {
         this.CustomID = CustomID;
@@ -16,23 +16,11 @@ public class Book {
         this.MaterialItem = MaterialItem;
     }
 
-    public int getCustomID() {
-        return CustomID;
-    }
-
-    public String getNameBook() {
-        return NameBook;
-    }
-
-    public Material getMaterialItem() {
-        return MaterialItem;
-    }
-
     public ItemStack getItem(){
-        ItemStack item = new ItemStack(getMaterialItem());
+        ItemStack item = new ItemStack(MaterialItem);
         ItemMeta meta = item.getItemMeta();
-        meta.displayName(Component.text(getNameBook()));
-        meta.setCustomModelData(getCustomID());
+        meta.displayName(Component.text(NameBook));
+        meta.setCustomModelData(CustomID);
         item.setItemMeta(meta);
         return item;
     }
